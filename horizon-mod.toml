@@ -1,0 +1,10 @@
+id = "low_fire"
+name = "Low Fire"
+version = "1.0.0"
+authors = ["CayMac"]
+owners = ["CayMac97"]
+license = "MIT"
+description = "Lowers or hides the first-person burning fire overlay for crystal clear vision in PvP and survival."
+source = "https://github.com/CayMac97/low-fire"
+icon = "icon.png"
+kind = "native-mod"
