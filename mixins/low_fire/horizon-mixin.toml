@@ -1,6 +1,6 @@
 [mod]
 id = "low_fire"
-version = "1.0.0"
+version = "1.0.1"
 priority = 100
 
 [compatibility]
@@ -8,9 +8,10 @@ horizon_revision = "ba6344a59cb9e755b730dcf02285fc0d33b97d3c"
 
 [[module]]
 id = "runtime"
-file = "crates/horizon-client/src/game.rs"
+file = "crates/horizon-client-render/src/lib.rs"
 name = "mod_low_fire"
 source = "runtime.rs"
+visibility = "pub"
 
 [[module]]
 id = "glue"
@@ -19,33 +20,14 @@ name = "mod_low_fire_glue"
 source = "glue.rs"
 
 [[injection]]
-id = "frame"
+id = "build"
 kind = "HEAD"
-target = "horizon_client::game::native_hooks::Game<'_>::native_frame"
-helper = "frame.rs"
+cancellable = true
+target = "horizon_client_render::screen_effects::ScreenEffects::build"
+helper = "build.rs"
 bindings = [
-  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
-  { name = "elapsed", ty = "std::time::Duration", value = "elapsed" },
-]
-
-[[injection]]
-id = "tick"
-kind = "HEAD"
-target = "horizon_client::game::native_hooks::Game<'_>::native_tick"
-helper = "tick.rs"
-bindings = [
-  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
-]
-
-[[injection]]
-id = "hud"
-kind = "HEAD"
-target = "horizon_client::game::native_hooks::Game<'_>::native_hud"
-helper = "hud.rs"
-bindings = [
-  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
-  { name = "batch", ty = "&mut horizon_client::hud::HudBatch", value = "&mut *batch" },
-  { name = "corners", ty = "&mut horizon_client::extras_hud::Corners", value = "&mut *corners" },
+  { name = "this", ty = "&crate::screen_effects::ScreenEffects", value = "self" },
+  { name = "input", ty = "&crate::screen_effects::ScreenInputs", value = "input" },
 ]
 
 [[injection]]
